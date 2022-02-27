@@ -5,10 +5,12 @@ export const useFetch = (options) => {
 
   useEffect(() => {
     console.log('useFetch useEffect');
-    fetch(options.url)
-      .then((response) => response.json())
-      .then((json) => setData(json));
-  }, []);
+    if (options.url) {
+      fetch(options.url)
+        .then((response) => response.json())
+        .then((json) => setData(json));
+    }
+  }, [options]);
 
   return {
     data,
