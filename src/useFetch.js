@@ -1,13 +1,17 @@
 import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 
-export const useFetch = (options) => {
-  const [data, setData] = useState(null);
-
-  const savedOnSuccess = useRef(options.onSuccess);
+export const useCallbackRef = (callback) => {
+  const callbackRef = useRef(callback);
 
   useLayoutEffect(() => {
-    savedOnSuccess.current = options.onSuccess;
-  }, [options.onSuccess]);
+    callbackRef.current = callback;
+  }, [callback]);
+  return callbackRef;
+};
+
+export const useFetch = (options) => {
+  const [data, setData] = useState(null);
+  const savedOnSuccess = useCallbackRef(options.onSuccess);
 
   useEffect(() => {
     console.log('useFetch useEffect');
