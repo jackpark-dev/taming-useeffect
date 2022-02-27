@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import './App.css';
 import { useFetch } from './useFetch';
 
 function App() {
   const [url, setUrl] = useState(null);
-  const { data } = useFetch({
-    url,
-  });
+  const myOptions = useMemo(() => ({ url }), [url]);
+  const { data } = useFetch(myOptions);
 
   console.log('App rendering');
   return (
