@@ -16,12 +16,18 @@ export const useFetch = (options) => {
   useEffect(() => {
     console.log('useFetch useEffect');
     if (options.url) {
+      let isCancelled = false;
       fetch(options.url)
         .then((response) => response.json())
         .then((json) => {
-          savedOnSuccess.current?.(json);
-          setData(json);
+          if (!isCancelled) {
+            savedOnSuccess.current?.(json);
+            setData(json);
+          }
         });
+      return () => {
+        isCancelled = true;
+      };
     }
   }, [options.url]);
 
